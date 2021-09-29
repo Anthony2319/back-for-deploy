@@ -54,6 +54,11 @@ class Project
      */
     private $images;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="projects")
+     */
+    private $client;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -162,6 +167,18 @@ class Project
                 $image->setProject(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): self
+    {
+        $this->client = $client;
 
         return $this;
     }
