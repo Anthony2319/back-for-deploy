@@ -59,9 +59,15 @@ class Project
      */
     private $client;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="projects")
+     */
+    private $category;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->category = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -179,6 +185,30 @@ class Project
     public function setClient(?Client $client): self
     {
         $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategory(): Collection
+    {
+        return $this->category;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->category->contains($category)) {
+            $this->category[] = $category;
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        $this->category->removeElement($category);
 
         return $this;
     }
